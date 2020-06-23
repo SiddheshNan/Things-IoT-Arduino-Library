@@ -2,6 +2,7 @@
 #include <things8266.h>
 
 
+// Boilerplate code 
 //------------------------
 String HandleDataResponse(String res, String type, String value);
 String Things8266::HandleData(String res, String type, String value) {
@@ -18,7 +19,7 @@ PubSubClient client(espClient);
 int LED = 2;
 
 String testString;
-String placeholderString = "yui";
+String placeholderString = "this is string";
 
 
 
@@ -42,9 +43,9 @@ void setup()
 
     DeviceClient.SetHost("things-iot.siddhesh.me");
 
-    DeviceClient.SetDevice("username", "device", "pass");
+    DeviceClient.SetDevice("username", "device-id", "device-pass");
 
-    DeviceClient.SetWiFi("ssid", "pass");
+    DeviceClient.SetWiFi("ssid", "ssid-pass");
 
 
 
