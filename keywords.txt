@@ -1,0 +1,31 @@
+#######################################
+# Syntax Coloring Map
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1) Classes
+#######################################
+
+Things8266   KEYWORD1
+things8266 KEYWORD1
+DeviceClient KEYWORD1
+
+#######################################
+# Datatypes (KEYWORD2) Methods
+#######################################
+
+thing KEYWORD2
+HandleDataResponse KEYWORD2
+
+#######################################
+# Datatypes (KEYWORD3) Setup & Loop
+#######################################
+
+SetHost    KEYWORD3
+SetDevice    KEYWORD3
+SetWiFi    KEYWORD3
+initDevice    KEYWORD3
+digitalPin    KEYWORD3
+outputValue    KEYWORD3
+inputValue    KEYWORD3
+DataHandle    KEYWORD3
