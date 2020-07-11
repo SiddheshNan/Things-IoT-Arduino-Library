@@ -1,11 +1,16 @@
 #include <ESP8266WiFi.h>
 #include "PubSubClient/PubSubClient.h"
 #include "ArduinoJson.h"
-
+String HandleDataResponse(String res, String type, String value);
 
 class Things8266 {
   public:
-    String HandleData(String res,  String type, String value);
+    Things8266(){
+      WiFiClient espClient;
+      PubSubClient client(espClient);
+      this->client;
+    };
+
     void logic(String data) {
       DynamicJsonDocument data_in(1024);
       DynamicJsonDocument data_out(1024);
@@ -14,15 +19,11 @@ class Things8266 {
       if ((data_in["query"]["action"] == "in") || (data_in["query"]["action"] == "out")) {
         data_out["msg_id"] = data_in["msg_id"];
         data_out["action"] = "returned_api_response";
-        String res = data_in["resource"];
-        String type = data_in["query"]["action"];
-        String value = data_in["query"]["value"];
-        data_out["data"] = HandleData(res,  type, value);
+        data_out["data"] = HandleDataResponse(data_in["resource"], data_in["query"]["action"], data_in["query"]["value"]);
         String outdata;
         serializeJson(data_out, outdata);
         publishMSG(outdata.c_str());
       }
-      else return;
 
     };
 
@@ -36,9 +37,10 @@ class Things8266 {
       this->ssid_password = ssID_password;
     }
 
-    void initDevice(PubSubClient client, DynamicJsonDocument res) {
+    void initDevice(DynamicJsonDocument res) {
+      res["action"] = "create_resources";
+
       this->topic = this->DeviceName + "/" + this->Username;
-      this->client = client;
       serializeJson(res, this->initJson);
       this->char_initJson = this->initJson.c_str();
 
@@ -81,8 +83,6 @@ class Things8266 {
 
 
 
-
-
     String digitalPin(int pin, String type, String value) {
       if (type == "out") {
         digitalWrite(pin, value.toInt());
@@ -106,6 +106,26 @@ class Things8266 {
 
     void SetHost(const char* host) {
       this->mqttServer = host;
+    }
+
+    void CreateResource(DynamicJsonDocument &databj, const char* typ, const char* resource)
+    {
+      if (typ == "switch") {
+        databj["resources"][resource]["type"] = "io";
+        databj["resources"][resource]["kind"] = "switch";
+      }
+      if (typ == "2-way") {
+        databj["resources"][resource]["type"] = "io";
+        databj["resources"][resource]["kind"] = "value";
+
+      }
+      if (typ == "1-way") {
+
+        databj["resources"][resource]["type"] = "out";
+        databj["resources"][resource]["kind"] = "value";
+
+      }
+
     }
 
 
@@ -134,6 +154,7 @@ class Things8266 {
     String initJson;
     const char* char_initJson;
     PubSubClient client;
+
 
 
 

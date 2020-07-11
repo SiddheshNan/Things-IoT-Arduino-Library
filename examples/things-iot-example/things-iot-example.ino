@@ -8,6 +8,10 @@ String HandleDataResponse(String res, String type, String value);
 String Things8266::HandleData(String res, String type, String value) {
     return HandleDataResponse(res, type, value);
 }
+
+
+
+
 Things8266 DeviceClient;
 WiFiClient espClient;
 PubSubClient client(espClient);
