@@ -1,15 +1,19 @@
 #include <ESP8266WiFi.h>
 #include "PubSubClient/PubSubClient.h"
 #include "ArduinoJson.h"
+
 String HandleDataResponse(String res, String type, String value);
 
 class Things8266 {
   public:
+  /*
     Things8266(){
       WiFiClient espClient;
       PubSubClient client(espClient);
       this->client;
     };
+    */
+
 
     void logic(String data) {
       DynamicJsonDocument data_in(1024);
@@ -37,9 +41,9 @@ class Things8266 {
       this->ssid_password = ssID_password;
     }
 
-    void initDevice(DynamicJsonDocument res) {
+    void initDevice(PubSubClient client, DynamicJsonDocument res) {
       res["action"] = "create_resources";
-
+      this->client = client;
       this->topic = this->DeviceName + "/" + this->Username;
       serializeJson(res, this->initJson);
       this->char_initJson = this->initJson.c_str();

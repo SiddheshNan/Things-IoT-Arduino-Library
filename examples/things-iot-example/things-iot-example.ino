@@ -1,6 +1,8 @@
 #include <ESP8266WiFi.h>
 #include <things8266.h>
 
+WiFiClient espClient;
+PubSubClient client(espClient);
 Things8266 DeviceClient;
 
 
@@ -50,7 +52,7 @@ void setup()
   DeviceClient.CreateResource(thing, "2-way", "placeholder");
 
 
-  DeviceClient.initDevice(thing);
+  DeviceClient.initDevice(client, thing);
 }
 
 
