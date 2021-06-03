@@ -1,14 +1,7 @@
 class msg_enums {
 public:
 
-    enum iot_msg_fields {
-        MSG_TYPE = 1,
-        MSG_ID = 2,
-        RESOURCE = 3,
-        VALUE = 4
-    };
-
-    enum iot_msg_types {
+    enum msg_types {
         NONE = 0,
         OK = 1,
         ERROR = 2,
